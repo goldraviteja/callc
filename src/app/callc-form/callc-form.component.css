@@ -7,4 +7,5 @@
   left: 80%;
   top: 200px;
   margin-left: -300px; /*half the width*/
+  text-align: left;
 }

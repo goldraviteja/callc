@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CallcForm }    from './callcForm';
+import { Router } from '@angular/router';
 
 @Component({
   moduleId: module.id,
@@ -10,7 +11,7 @@ import { CallcForm }    from './callcForm';
 
 export class CallcFormComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router : Router) { }
 
   searchCriteria =  ['ATN', 'WTN', 'USOC'];
   sortByValues = ['ATN,USOC', 'USOC,WTN'];
@@ -18,25 +19,32 @@ export class CallcFormComponent implements OnInit {
   yearList = [2017,2016,2015,2014,2013,2012];
   isSearchByATN = false;
   isSearchByUSOC = false;
+  isChecked = false;
 
   model = new CallcForm(1, 2017, '', '', '','');
 
-  submitted = false;
-  onSubmit() { this.submitted = true; }
+  onSelectSearchBy(searchBySelectValue : String, filterByATN, filterByUSOC, filterByZero, filterByMRC) : void {
 
-  onSelectSearchBy(searchBySelectValue : String) : void {
-      
     this.isSearchByATN = false;
     this.isSearchByUSOC = false;
-  	if(searchBySelectValue === "ATN") {
-      this.isSearchByATN = true;
-    }
-    if(searchBySelectValue === "USOC") {
+  	if(searchBySelectValue === "ATN" || searchBySelectValue === "WTN") {
       this.isSearchByUSOC = true;
     }
+
+    if(searchBySelectValue === "USOC") {
+      this.isSearchByATN = true;
+    }
+    
+    filterByATN.checked = false;
+    filterByUSOC.checked = false;
+    filterByZero.checked = false;
+    filterByMRC.checked = false;
+   }
+
+    ngOnInit() {
   }
 
-  ngOnInit() {
+    onSubmit() {
+      this.router.navigate(['/callc-details']);
   }
-
 }
